@@ -1,0 +1,14 @@
+{
+  "name": "pokedex-server",
+  "version": "1.0.0",
+  "description": "A simple PokeDex application using Express to serve static files and interact with the Pokémon API.",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  },
+  "author": "",
+  "license": "ISC"
+}
