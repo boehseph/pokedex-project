@@ -1,6 +1,6 @@
 const API_URL = 'https://api.pokemontcg.io/v2/cards/?q=name:';
 const API_HEADERS = {
-    'X-API-Key': '3bb65ffc-e69b-4c02-9eb7-9b5ea098d0b8'
+    'X-API-Key': '9d5b60c5-9b84-4e5b-b98c-dda45405df1f'
 };
 
 let currentSearch = 'pikachu';
@@ -22,7 +22,11 @@ function updatePokemonDisplay(pokemon) {
         container.innerHTML = '';
         return;
     }
-
+    
+    const description = pokemon.flavorText ? 
+        `<p><em>${pokemon.flavorText}</em></p>` : 
+        `<p><em>This Pokemon doesn't have a description available.</em></p>`;
+    
     container.innerHTML = `
         <section class="pokemon-container">
             <h1>${pokemon.name} (${pokemon.types?.join(', ') || ''})</h1>
@@ -30,7 +34,7 @@ function updatePokemonDisplay(pokemon) {
                 `<p><strong>Evolves to:</strong> ${pokemon.evolvesTo.join(', or ')}</p>` : 
                 `<p><strong>Evolves from:</strong> ${pokemon.evolvesFrom || 'n/a'}</p>`}
             <img src="${pokemon.images.small}" />
-            <p><em>${pokemon.flavorText}</em></p>
+            ${description}
             <section class="pokemon-stats">
                 <div>
                     ${pokemon.attacks ? `

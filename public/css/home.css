@@ -8,10 +8,10 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-image: url('assets/pokemon-bg.jpg');
+  background-image: url('../assets/pokemon-bg.jpg');
   background-size: cover;
   padding: 2rem;
-  min-height: 100vh;
+  min-height: calc(100vh - 0.5rem);
 }
 
 .poke-dex-container input,
@@ -41,4 +41,8 @@ body {
 
 .pokemon-stats div {
   width: 50%;
+}
+
+#content {
+  margin-top: 1rem;
 }
