@@ -1,0 +1,111 @@
+/* Auth Forms Container - Keep existing styles */
+.auth-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 60px);
+    background-image: url('../assets/pokemon-bg.jpg');
+    background-size: cover;
+    padding: 2rem;
+}
+
+/* Form Styling - Adjusted widths */
+.auth-form {
+    background-color: rgba(248, 248, 248, 0.85);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 90%; /* Changed from 100% */
+    max-width: 400px;
+    border: 3px solid #3b4cca;
+}
+
+.auth-form h1 {
+    color: #3b4cca;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+}
+
+/* Input Fields */
+.auth-form .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.auth-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #333;
+    font-weight: bold;
+}
+
+/* Input Fields - Match button width */
+.auth-form input {
+    width: calc(100% - 1.6rem); /* Account for padding */
+    padding: 0.8rem;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.auth-form input:focus {
+    border-color: #3b4cca;
+    outline: none;
+}
+
+/* Buttons */
+.auth-form button {
+    width: 100%;
+    padding: 0.8rem;
+    background-color: #3b4cca;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 0.5rem;
+}
+
+.auth-form button:hover {
+    background-color: #2a3a99;
+}
+
+/* Error Messages */
+.error-message {
+    color: #d32f2f;
+    background-color: #ffebee;
+    padding: 0.8rem;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+    text-align: center;
+    border: 1px solid #ef9a9a;
+}
+
+/* Link Styling */
+.auth-link {
+    text-align: center;
+    margin-top: 1.5rem;
+    color: #333;
+}
+
+.auth-link a {
+    color: #3b4cca;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.auth-link a:hover {
+    text-decoration: underline;
+}
+
+/* Poke Ball Decoration */
+.pokeball-divider {
+    text-align: center;
+    margin: 1.5rem 0;
+    color: #3b4cca;
+    font-size: 1.5rem;
+}

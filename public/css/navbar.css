@@ -32,3 +32,10 @@
 .nav-button:hover {
   background-color: #2a3a99;
 }
+
+.welcome-message {
+  color: #3b4cca; /* Pokemon blue */
+  margin-right: 1rem;
+  font-weight: bold;
+  align-self: center;
+}
