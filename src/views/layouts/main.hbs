@@ -15,7 +15,7 @@
         </div>
         <div class="navbar-right">
             {{#if isLoggedIn}}
-                <span class="welcome-message">Welcome, {{username}}!</span>
+                <a href="/user-pokedex" class="nav-button welcome-button">View Pokedex</a>
                 <a href="#" id="logoutBtn" class="nav-button">Logout</a>
             {{else}}
                 <a href="/login" id="loginBtn" class="nav-button">Login</a>

@@ -46,3 +46,16 @@ body {
 #content {
   margin-top: 1rem;
 }
+
+.add-to-pokedex-btn {
+  background-color: #3b4cca; /* Pokemon blue */
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  margin: 0 0.5rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
