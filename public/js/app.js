@@ -68,5 +68,20 @@ function handleSearch() {
     fetchPokemon();
 }
 
+function resetSearch() {
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) searchInput.value = '';
+    
+    if (typeof fetchPokemon === 'function') {
+        currentSearch = 'pikachu';
+        fetchPokemon();
+    }
+}
+
+// Reset when homepage loads
+if (window.location.pathname === '/') {
+    resetSearch();
+}
+
 // Initial load
 fetchPokemon();

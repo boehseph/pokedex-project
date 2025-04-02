@@ -6,14 +6,20 @@
     <title>{{title}}</title>
     <link rel="stylesheet" href="/css/home.css">
     <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/auth.css">
 </head>
 <body>
     <nav class="navbar">
         <div class="navbar-left">
-            <a href="#" id="findPokemonBtn" class="nav-button">Find Pokemon</a>
+            <a href="/" id="findPokemonBtn" class="nav-button">Find Pokemon</a>
         </div>
         <div class="navbar-right">
-            <a href="#" id="loginBtn" class="nav-button">Login</a>
+            {{#if isLoggedIn}}
+                <span class="welcome-message">Welcome, {{username}}!</span>
+                <a href="#" id="logoutBtn" class="nav-button">Logout</a>
+            {{else}}
+                <a href="/login" id="loginBtn" class="nav-button">Login</a>
+            {{/if}}
         </div>
     </nav>
     
