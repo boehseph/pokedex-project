@@ -30,6 +30,7 @@ function updatePokemonDisplay(pokemon) {
     container.innerHTML = `
         <section class="pokemon-container">
             <h1>${pokemon.name} (${pokemon.types?.join(', ') || ''})</h1>
+            ${pokemon.rarity ? `<p><strong>Rarity:</strong> ${pokemon.rarity}</p>` : ''}
             ${pokemon.evolvesTo ? 
                 `<p><strong>Evolves to:</strong> ${pokemon.evolvesTo.join(', or ')}</p>` : 
                 `<p><strong>Evolves from:</strong> ${pokemon.evolvesFrom || 'n/a'}</p>`}

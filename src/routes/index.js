@@ -100,6 +100,27 @@ router.get('/register', (req, res) => {
     });
 });
 
+router.get('/user-pokedex', (req, res) => {
+    if (!req.session.userId) {
+        return res.redirect('/login');
+    }
+    
+    req.db.get(
+        'SELECT username FROM users WHERE id = ?',
+        [req.session.userId],
+        (err, user) => {
+            if (err || !user) {
+                return res.redirect('/');
+            }
+            res.render('user-profile', {
+                title: `${user.username}'s Profile - PokeDex`,
+                isLoggedIn: true,
+                username: user.username
+            });
+        }
+    );
+});
+
 // Auth status endpoint
 router.get('/api/auth-status', (req, res) => {
     res.json({ 
