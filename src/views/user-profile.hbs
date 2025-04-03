@@ -1,5 +1,20 @@
 <div class="profile-container">
-    <link rel="stylesheet" href="/css/profile.css">
-    <h1>This is {{username}}'s profile</h1>
-    <p>Profile content will go here</p>
+    <div class="profile-content">
+        <h1>{{username}}'s Pokedex</h1>
+        
+        {{#if pokemonCards.length}}
+            <div class="pokedex-row">
+                {{#each pokemonCards}}
+                    <div class="pokedex-card">
+                        <img src="{{this.images.small}}" alt="{{this.name}}" />
+                        <h3>{{this.name}}</h3>
+                        {{#if this.hp}}<p><strong>HP:</strong> {{this.hp}}</p>{{/if}}
+                        <p><strong>Rarity:</strong> {{this.rarity}}</p>
+                    </div>
+                {{/each}}
+            </div>
+        {{else}}
+            <p class="empty-pokedex">Your Pokedex is empty. Search for Pokemon and add them to your collection!</p>
+        {{/if}}
+    </div>
 </div>

@@ -105,18 +105,63 @@ router.get('/user-pokedex', (req, res) => {
         return res.redirect('/login');
     }
     
-    req.db.get(
-        'SELECT username FROM users WHERE id = ?',
+    req.db.all(
+        `SELECT pokemon_data FROM user_pokedex 
+         WHERE user_id = ? 
+         ORDER BY added_at DESC`,
         [req.session.userId],
-        (err, user) => {
-            if (err || !user) {
+        (err, pokemons) => {
+            if (err) {
+                console.error(err);
                 return res.redirect('/');
             }
-            res.render('user-profile', {
-                title: `${user.username}'s Profile - PokeDex`,
-                isLoggedIn: true,
-                username: user.username
-            });
+            
+            const pokemonCards = pokemons.map(p => JSON.parse(p.pokemon_data));
+            
+            req.db.get(
+                'SELECT username FROM users WHERE id = ?',
+                [req.session.userId],
+                (err, user) => {
+                    if (err || !user) {
+                        return res.redirect('/');
+                    }
+                    res.render('user-profile', {
+                        title: `${user.username}'s Pokedex`,
+                        isLoggedIn: true,
+                        username: user.username,
+                        pokemonCards: pokemonCards
+                    });
+                }
+            );
+        }
+    );
+});
+
+router.post('/api/add-to-pokedex', (req, res) => {
+    if (!req.session.userId) {
+        return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const { pokemonData } = req.body;
+    
+    // Add validation
+    if (!pokemonData || !pokemonData.id) {
+        return res.status(400).json({ error: 'Invalid Pokemon data' });
+    }
+
+    const pokemonId = pokemonData.id;
+
+    req.db.run(
+        'INSERT INTO user_pokedex (user_id, pokemon_id, pokemon_name, pokemon_data) VALUES (?, ?, ?, ?)',
+        [req.session.userId, pokemonId, pokemonData.name, JSON.stringify(pokemonData)],
+        function(err) {
+            if (err) {
+                if (err.message.includes('UNIQUE constraint failed')) {
+                    return res.status(400).json({ error: 'Pokemon already in Pokedex' });
+                }
+                return res.status(500).json({ error: 'Database error' });
+            }
+            res.json({ success: true });
         }
     );
 });

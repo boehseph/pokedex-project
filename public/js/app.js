@@ -4,13 +4,15 @@ const API_HEADERS = {
 };
 
 let currentSearch = 'pikachu';
+let currentPokemon = null;
 
 async function fetchPokemon() {
     try {
         const response = await fetch(API_URL + currentSearch, { headers: API_HEADERS });
         const data = await response.json();
         const randomElement = Math.floor(Math.random() * data.data.length);
-        updatePokemonDisplay(data.data[randomElement]);
+        currentPokemon = data.data[randomElement];
+        updatePokemonDisplay(currentPokemon);
     } catch (error) {
         console.error('Error fetching Pokemon:', error);
     }
@@ -60,6 +62,33 @@ function updatePokemonDisplay(pokemon) {
             </section>
         </section>
     `;
+}
+
+async function addToPokedex() {
+    if (!currentPokemon) return;
+
+    try {
+        const response = await fetch('/api/add-to-pokedex', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                pokemonData: currentPokemon
+            })
+        });
+
+        const result = await response.json();
+        
+        if (response.ok) {
+            alert(`${currentPokemon.name} added to your Pokedex!`);
+        } else {
+            alert(result.error || 'Failed to add to Pokedex');
+        }
+    } catch (error) {
+        console.error('Error adding to Pokedex:', error);
+        alert('Network error - please try again');
+    }
 }
 
 function handleSearch() {

@@ -25,6 +25,21 @@ const db = new sqlite3.Database('./db/pokedex.db', (err) => {
         `, (err) => {
             if (err) console.error('Table creation error:', err);
         });
+
+        db.exec(`
+            CREATE TABLE IF NOT EXISTS user_pokedex (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                user_id INTEGER NOT NULL,
+                pokemon_id TEXT NOT NULL,
+                pokemon_name TEXT NOT NULL,
+                pokemon_data TEXT NOT NULL,
+                added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY(user_id) REFERENCES users(id),
+                UNIQUE(user_id, pokemon_id)
+            );
+        `, (err) => {
+            if (err) console.error('Pokedex table creation error:', err);
+        });
     }
 });
 
@@ -39,6 +54,8 @@ app.use(session({
     secret: 'simple-key',
     cookie: { maxAge: 8 * 60 * 60 * 1000 } // 8 hours (duration of school day)
 }));
+
+app.use(express.json());
 
 // Set up Handlebars
 app.engine('hbs', engine({
