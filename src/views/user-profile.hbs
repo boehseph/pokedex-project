@@ -7,9 +7,6 @@
                 {{#each pokemonCards}}
                     <div class="pokedex-card">
                         <img src="{{this.images.small}}" alt="{{this.name}}" />
-                        <h3>{{this.name}}</h3>
-                        {{#if this.hp}}<p><strong>HP:</strong> {{this.hp}}</p>{{/if}}
-                        <p><strong>Rarity:</strong> {{this.rarity}}</p>
                     </div>
                 {{/each}}
             </div>

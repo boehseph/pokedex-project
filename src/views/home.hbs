@@ -1,8 +1,8 @@
 <div class="poke-dex-container">
     <input type="text" placeholder="Enter Pokemon name" id="searchInput">
-    <button onclick="handleSearch()">Who's That Pokemon!?</button>
+    <button id="whosThatPokemonBtn" class="add-to-pokedex-btn">Who's That Pokemon!?</button>
     {{#if isLoggedIn}}
-        <button onclick="addToPokedex()" class="add-to-pokedex-btn">Add card to Pokedex!</button>
+        <button id="addToPokedexBtn" class="add-to-pokedex-btn">Add card to Pokedex!</button>
     {{/if}}
     <div id="pokemonContainer"></div>
 </div>

@@ -1,7 +1,7 @@
 .profile-container {
     display: flex;
-    flex-direction: row;
-    align-items: center;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
     min-height: calc(100vh - 60px);
     padding: 2rem;
     background-color: #f8f8f8;
@@ -14,12 +14,13 @@
 .profile-content {
     background-color: rgba(248, 248, 248, 0.85);
     display: flex;
-    flex-direction: row;
+    flex-direction: column; /* Stack title above cards */
+    align-items: center; /* Center content horizontally */
     padding: 2rem;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     width: 90%;
-    max-width: 100%;
+    max-width: 1200px; /* Limit maximum width */
     border: 3px solid #3b4cca;
     text-align: center;
 }
@@ -30,19 +31,13 @@
     font-size: 2rem;
 }
 
-/* Horizontal scrolling container */
 .pokedex-row {
     display: flex;
-    overflow-x: auto;
+    flex-wrap: wrap; /* Allow cards to wrap to next line */
+    justify-content: center; /* Center cards */
     gap: 1.5rem;
     padding: 1rem 0;
     width: 100%;
-    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
-}
-
-/* Remove scrollbar visibility (optional) */
-.pokedex-row::-webkit-scrollbar {
-    display: none;
 }
 
 /* Individual card styling */
@@ -55,6 +50,7 @@
     width: 200px;
     text-align: center;
     transition: transform 0.3s;
+    margin-bottom: 1rem; /* Add some bottom margin */
 }
 
 .pokedex-card:hover {
