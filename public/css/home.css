@@ -59,3 +59,54 @@ body {
   font-weight: bold;
   transition: background-color 0.3s;
 }
+
+/* Search input container */
+.poke-dex-container input {
+  padding: 1rem;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  width: 300px;
+  max-width: 80%;
+  border: 3px solid #3b4cca; /* Pokémon blue */
+  border-radius: 30px; /* Rounded edges */
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  text-align: center;
+  outline: none;
+}
+
+/* Search input focus state */
+.poke-dex-container input:focus {
+  border-color: #a44cf4;
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+  background-color: white;
+}
+
+/* Search input placeholder */
+.poke-dex-container input::placeholder {
+  color: #666;
+  font-style: italic;
+}
+
+/* Button alignment */
+.poke-dex-container button {
+  margin-top: 0.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .poke-dex-container input {
+    width: 80%;
+    padding: 0.8rem;
+  }
+}
+
+/* Add this to home.css if using the search-container div */
+.search-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 1rem;
+}

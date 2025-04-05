@@ -3,8 +3,6 @@ const API_HEADERS = {
     'X-API-Key': '9d5b60c5-9b84-4e5b-b98c-dda45405df1f'
 };
 
-// It made it a lot easier to have a pokemon to fall back on in my code 
-// so I set a default pokemon to be 'pikachu' in case of an error
 let currentSearch = 'pikachu';
 let currentPokemon = null;
 
@@ -22,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
         addToPokedexBtn.addEventListener('click', addToPokedex);
     }
 
-    // Also handle search input for enter key
+    // Handle search input for enter key
     const searchInput = document.getElementById('searchInput');
     if (searchInput) {
         searchInput.addEventListener('keypress', function(e) {
@@ -30,6 +28,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 handleWhosThatPokemon();
             }
         });
+    }
+
+    // Initial load only on homepage
+    if (window.location.pathname === '/') {
+        resetSearch();
+        fetchPokemon(); // Single fetch on initial load
     }
 });
 
@@ -44,7 +48,7 @@ async function handleWhosThatPokemon() {
             return;
         }
         
-        handleSearch();
+        handleSearch(); // This will call fetchPokemon()
     } catch (error) {
         console.error('Error checking auth status:', error);
         window.location.href = '/login';
@@ -55,23 +59,31 @@ async function fetchPokemon() {
     try {
         const response = await fetch(API_URL + currentSearch, { headers: API_HEADERS });
         const data = await response.json();
-        // Get a random pokemon card based on the pokemon entered by the user
-        const randomElement = Math.floor(Math.random() * data.data.length);
-        currentPokemon = data.data[randomElement];
-        updatePokemonDisplay(currentPokemon);
+        
+        if (data.data && data.data.length > 0) {
+            const randomElement = Math.floor(Math.random() * data.data.length);
+            currentPokemon = data.data[randomElement];
+            updatePokemonDisplay(currentPokemon);
+        } else {
+            // Fallback to Pikachu if no results
+            currentSearch = 'pikachu';
+            fetchPokemon();
+        }
     } catch (error) {
         console.error('Error fetching Pokemon:', error);
+        // Fallback to Pikachu on error
+        currentSearch = 'pikachu';
+        fetchPokemon();
     }
 }
 
 function updatePokemonDisplay(pokemon) {
     const container = document.getElementById('pokemonContainer');
     if (!pokemon) {
-        container.innerHTML = '';
+        container.innerHTML = '<p>No Pokemon found. Try another search!</p>';
         return;
     }
     
-    // Update the container with the Pokemon data
     const description = pokemon.flavorText ? 
         `<p><em>${pokemon.flavorText}</em></p>` : 
         `<p><em>This Pokemon doesn't have a description available.</em></p>`;
@@ -115,7 +127,6 @@ async function addToPokedex() {
     if (!currentPokemon) return;
 
     try {
-        // Fetch the pokemon data from the API
         const response = await fetch('/api/add-to-pokedex', {
             method: 'POST',
             headers: {
@@ -129,7 +140,6 @@ async function addToPokedex() {
         const result = await response.json();
         
         if (response.ok) {
-            // Give the user an alert that the pokemon was added to their pokedex
             alert(`${currentPokemon.name} added to your Pokedex!`);
         } else {
             alert(result.error || 'Failed to add to Pokedex');
@@ -144,23 +154,11 @@ function handleSearch() {
     const input = document.getElementById('searchInput');
     currentSearch = input.value.trim().toLowerCase() || 'pikachu';
     input.value = '';
-    fetchPokemon();
+    fetchPokemon(); // Single fetch when searching
 }
 
 function resetSearch() {
     const searchInput = document.getElementById('searchInput');
     if (searchInput) searchInput.value = '';
-    
-    if (typeof fetchPokemon === 'function') {
-        currentSearch = 'pikachu';
-        fetchPokemon();
-    }
+    // No fetchPokemon() call here anymore
 }
-
-// Reset when homepage loads
-if (window.location.pathname === '/') {
-    resetSearch();
-}
-
-// Initial load
-fetchPokemon();

@@ -2,6 +2,12 @@
     <div class="profile-content">
         <h1>{{username}}'s Pokedex</h1>
         
+        {{#if isAdmin}}
+            {{#unless viewingOwnPokedex}}
+                <a href="/user-pokedex" class="nav-button" style="margin-bottom: 1rem;">Back to My Pokedex</a>
+            {{/unless}}
+        {{/if}}
+        
         {{#if pokemonCards.length}}
             <div class="pokedex-row">
                 {{#each pokemonCards}}
@@ -11,7 +17,7 @@
                 {{/each}}
             </div>
         {{else}}
-            <p class="empty-pokedex">Your Pokedex is empty. Search for Pokemon and add them to your collection!</p>
+            <p class="empty-pokedex">This Pokedex is empty.</p>
         {{/if}}
     </div>
 </div>

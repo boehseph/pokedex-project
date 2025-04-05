@@ -100,16 +100,29 @@ router.get('/register', (req, res) => {
     });
 });
 
-router.get('/user-pokedex', (req, res) => {
+router.get('/user-pokedex/:userId?', (req, res) => {
+    // If user isn't logged in at all, redirect to login
     if (!req.session.userId) {
         return res.redirect('/login');
+    }
+
+    // If no userId specified, use the logged in user's ID
+    const userId = req.params.userId || req.session.userId;
+    
+    // Check if the requesting user is admin or the owner of the pokedex
+    const isAdmin = req.session.userType === 'admin';
+    const isOwner = userId == req.session.userId; // Use loose equality for type comparison
+    
+    // Only proceed if user is admin or owner
+    if (!isAdmin && !isOwner) {
+        return res.status(403).send('Forbidden');
     }
     
     req.db.all(
         `SELECT pokemon_data FROM user_pokedex 
          WHERE user_id = ? 
          ORDER BY added_at DESC`,
-        [req.session.userId],
+        [userId],
         (err, pokemons) => {
             if (err) {
                 console.error(err);
@@ -120,7 +133,7 @@ router.get('/user-pokedex', (req, res) => {
             
             req.db.get(
                 'SELECT username FROM users WHERE id = ?',
-                [req.session.userId],
+                [userId],
                 (err, user) => {
                     if (err || !user) {
                         return res.redirect('/');
@@ -128,11 +141,32 @@ router.get('/user-pokedex', (req, res) => {
                     res.render('user-profile', {
                         title: `${user.username}'s Pokedex`,
                         isLoggedIn: true,
+                        isAdmin: isAdmin,
+                        viewingOwnPokedex: !req.params.userId, // true if no userId param
                         username: user.username,
                         pokemonCards: pokemonCards
                     });
                 }
             );
+        }
+    );
+});
+
+// Get all users (admin only)
+router.get('/api/all-users', (req, res) => {
+    if (!req.session.userId || req.session.userType !== 'admin') {
+        return res.status(403).json({ error: 'Forbidden' });
+    }
+    
+    req.db.all(
+        'SELECT id, username FROM users WHERE user_type = ?',
+        ['guest'],
+        (err, users) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).json({ error: 'Database error' });
+            }
+            res.json(users);
         }
     );
 });

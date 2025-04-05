@@ -16,6 +16,14 @@
         </div>
         <div class="navbar-right">
             {{#if isLoggedIn}}
+                {{#if isAdmin}}
+                <div class="admin-dropdown">
+                    <button class="nav-button admin-dropbtn">Users</button>
+                    <div class="admin-dropdown-content">
+                        <!-- Users will be loaded here via JavaScript -->
+                    </div>
+                </div>
+                {{/if}}
                 <a href="/user-pokedex" class="nav-button welcome-button">View Pokedex</a>
                 <a href="#" id="logoutBtn" class="nav-button">Logout</a>
             {{else}}
