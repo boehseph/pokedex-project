@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Basic page metadata and stylesheets -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{title}}</title>
@@ -10,6 +11,7 @@
     <link rel="stylesheet" href="/css/profile.css">
 </head>
 <body>
+    <!-- Top navigation bar with conditional buttons -->
     <nav class="navbar">
         <div class="navbar-left">
             <a href="/" id="findPokemonBtn" class="nav-button">Find Pokemon</a>
@@ -32,10 +34,12 @@
         </div>
     </nav>
     
+    <!-- Main content area where templates inject content -->
     <div id="content">
         {{{body}}}
     </div>
     
+    <!-- JavaScript files loaded at bottom -->
     <script src="/js/app.js"></script>
     <script src="/js/navbar.js"></script>
 </body>

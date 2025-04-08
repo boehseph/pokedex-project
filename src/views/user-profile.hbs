@@ -1,13 +1,6 @@
 <div class="profile-container">
     <div class="profile-content">
         <h1>{{username}}'s Pokedex</h1>
-        
-        {{#if isAdmin}}
-            {{#unless viewingOwnPokedex}}
-                <a href="/user-pokedex" class="nav-button" style="margin-bottom: 1rem;">Back to My Pokedex</a>
-            {{/unless}}
-        {{/if}}
-        
         {{#if pokemonCards.length}}
             <div class="pokedex-row">
                 {{#each pokemonCards}}

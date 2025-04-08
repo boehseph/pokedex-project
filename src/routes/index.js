@@ -41,13 +41,13 @@ router.get('/login', (req, res) => {
     });
 });
 
-// Login handler (simplified)
+// Login handler
 router.post('/login', (req, res) => {
     const { username, password } = req.body;
     
     req.db.get(
         'SELECT * FROM users WHERE username = ? AND password_hash = ?',
-        [username, password], // Now comparing plain text
+        [username, password],
         (err, user) => {
             if (err || !user) {
                 return res.redirect('/login?error=Invalid username or password');
@@ -60,13 +60,13 @@ router.post('/login', (req, res) => {
     );
 });
 
-// Registration handler (simplified)
+// Registration handler
 router.post('/register', (req, res) => {
     const { username, password } = req.body;
     
     req.db.run(
         'INSERT INTO users (username, password_hash, user_type) VALUES (?, ?, ?)',
-        [username, password, 'guest'], // Storing plain text password
+        [username, password, 'guest'],
         function(err) {
             if (err) {
                 if (err.message.includes('UNIQUE constraint failed')) {
@@ -111,7 +111,7 @@ router.get('/user-pokedex/:userId?', (req, res) => {
     
     // Check if the requesting user is admin or the owner of the pokedex
     const isAdmin = req.session.userType === 'admin';
-    const isOwner = userId == req.session.userId; // Use loose equality for type comparison
+    const isOwner = userId == req.session.userId;
     
     // Only proceed if user is admin or owner
     if (!isAdmin && !isOwner) {
@@ -151,6 +151,8 @@ router.get('/user-pokedex/:userId?', (req, res) => {
         }
     );
 });
+
+// These last 4 endpoints are for testing purposes 
 
 // Get all users (admin only)
 router.get('/api/all-users', (req, res) => {

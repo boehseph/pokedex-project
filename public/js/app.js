@@ -1,3 +1,4 @@
+// API configuration for Pokemon TCG
 const API_URL = 'https://api.pokemontcg.io/v2/cards/?q=name:';
 const API_HEADERS = {
     'X-API-Key': '9d5b60c5-9b84-4e5b-b98c-dda45405df1f'
@@ -6,7 +7,7 @@ const API_HEADERS = {
 let currentSearch = 'pikachu';
 let currentPokemon = null;
 
-// Add event listeners when DOM is loaded
+// Sets up all the interactive elements when page loads
 document.addEventListener('DOMContentLoaded', function() {
     // Handle search button
     const whosThatPokemonBtn = document.getElementById('whosThatPokemonBtn');
@@ -14,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
         whosThatPokemonBtn.addEventListener('click', handleWhosThatPokemon);
     }
 
-    // Handle add to pokedex button if it exists
+    // Handle add to pokedex button
     const addToPokedexBtn = document.getElementById('addToPokedexBtn');
     if (addToPokedexBtn) {
         addToPokedexBtn.addEventListener('click', addToPokedex);
@@ -33,10 +34,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initial load only on homepage
     if (window.location.pathname === '/') {
         resetSearch();
-        fetchPokemon(); // Single fetch on initial load
+        fetchPokemon();
     }
 });
 
+// Checks if user is logged in before searching
 async function handleWhosThatPokemon() {
     // Check if user is logged in
     try {
@@ -48,19 +50,21 @@ async function handleWhosThatPokemon() {
             return;
         }
         
-        handleSearch(); // This will call fetchPokemon()
+        handleSearch();
     } catch (error) {
         console.error('Error checking auth status:', error);
         window.location.href = '/login';
     }
 }
 
+// Fetches Pokemon data from the API
 async function fetchPokemon() {
     try {
         const response = await fetch(API_URL + currentSearch, { headers: API_HEADERS });
         const data = await response.json();
         
         if (data.data && data.data.length > 0) {
+            // Randomly select a Pokemon from the results
             const randomElement = Math.floor(Math.random() * data.data.length);
             currentPokemon = data.data[randomElement];
             updatePokemonDisplay(currentPokemon);
@@ -77,6 +81,7 @@ async function fetchPokemon() {
     }
 }
 
+// Updates the page to show Pokemon details
 function updatePokemonDisplay(pokemon) {
     const container = document.getElementById('pokemonContainer');
     if (!pokemon) {
@@ -123,6 +128,7 @@ function updatePokemonDisplay(pokemon) {
     `;
 }
 
+// Saves current Pokemon to user's pokedex
 async function addToPokedex() {
     if (!currentPokemon) return;
 
@@ -150,6 +156,7 @@ async function addToPokedex() {
     }
 }
 
+// Handles search form submission
 function handleSearch() {
     const input = document.getElementById('searchInput');
     currentSearch = input.value.trim().toLowerCase() || 'pikachu';
@@ -157,8 +164,8 @@ function handleSearch() {
     fetchPokemon(); // Single fetch when searching
 }
 
+// Clears the search input field
 function resetSearch() {
     const searchInput = document.getElementById('searchInput');
     if (searchInput) searchInput.value = '';
-    // No fetchPokemon() call here anymore
 }

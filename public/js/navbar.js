@@ -1,3 +1,4 @@
+// Runs when page finishes loading
 document.addEventListener('DOMContentLoaded', function() {
     // Logout button handler
     const logoutBtn = document.getElementById('logoutBtn');
@@ -15,31 +16,22 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Check if user is admin and load users for dropdown
+    // Load users for dropdown (admin only)
     fetch('/api/auth-status')
-        .then(response => response.json())
-        .then(authStatus => {
-            if (authStatus.isAdmin) {
-                loadUsersForDropdown();
-            }
-        })
-        .catch(error => console.error('Error checking auth status:', error));
+    .then(response => response.json())
+    .then(authStatus => {
+        if (authStatus.isAdmin) {
+            fetch('/api/all-users')
+                .then(response => response.json())
+                .then(users => {
+                    const dropdownContent = document.querySelector('.admin-dropdown-content');
+                    if (dropdownContent) {
+                        dropdownContent.innerHTML = users
+                            .map(user => `<span class="dropdown-item">${user.username}</span>`)
+                            .join('');
+                    }
+                })
+                .catch(error => console.error('Dropdown load failed:', error));
+        }
+    });
 });
-
-function loadUsersForDropdown() {
-    fetch('/api/all-users')
-        .then(response => response.json())
-        .then(users => {
-            const dropdownContent = document.querySelector('.admin-dropdown-content');
-            if (dropdownContent) {
-                dropdownContent.innerHTML = '';
-                users.forEach(user => {
-                    const userLink = document.createElement('a');
-                    userLink.href = `/user-pokedex/${user.id}`;
-                    userLink.textContent = user.username;
-                    dropdownContent.appendChild(userLink);
-                });
-            }
-        })
-        .catch(error => console.error('Error loading users:', error));
-}
