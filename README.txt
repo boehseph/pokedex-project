@@ -1,8 +1,17 @@
-Instalation: 
+I attest to be begin the sole author of this submitted work and any code borrowed from other sources has been identified by comments placed in my submitted code.
+Boeh Remtulla, 101332063
+
+--API Documentation--
+https://docs.pokemontcg.io/
+
+--Install Instructions-- 
 npm install 
 
-Test Instructions: 
-node src/server.js 
-ctrl + c to stop 
+--Launch Instructions--
+npm start
 
-NOTE: Remember to delete node modules folder when committing to github
+--Test Instructions--
+http://localhost:3000
+
+--Demo--
+https://youtu.be/tTE_iDO3Hw4

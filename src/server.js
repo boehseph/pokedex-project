@@ -12,6 +12,7 @@ const db = new sqlite3.Database('./db/pokedex.db', (err) => {
     if (err) {
         console.error('Database connection error:', err);
     } else {
+        // Output message to console if connection is successful (for testing)
         console.log('Connected to SQLite database');
         // Create tables if they don't exist
         db.exec(`
@@ -49,10 +50,10 @@ app.use((req, res, next) => {
     next();
 });
 
-// Session middleware (simplified)
+// Session middleware
 app.use(session({
     secret: 'simple-key',
-    cookie: { maxAge: 8 * 60 * 60 * 1000 } // 8 hours (duration of school day)
+    cookie: { maxAge: 8 * 60 * 60 * 1000 } // 8 hours
 }));
 
 app.use(express.json());
@@ -61,7 +62,7 @@ app.use(express.json());
 app.engine('hbs', engine({
     extname: '.hbs',
     defaultLayout: 'main',
-    layoutsDir: path.join(__dirname, 'views/layouts')
+    layoutsDir: path.join(__dirname, 'views')
 }));
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'views'));
@@ -80,6 +81,4 @@ app.use('/', routes);
 app.listen(PORT, () => {
     console.log("To Test: ")
     console.log(`http://localhost:${PORT}`);
-    console.log(`http://localhost:${PORT}/register`);
-    console.log(`http://localhost:${PORT}/login`);
 });
